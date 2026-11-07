@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EzguCode School — Kelajakni Kod Bilan Qur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #181825;
+  --card: #1a1a2e;
+  --card2: #16213e;
+  --border: rgba(99,102,241,0.18);
+  --accent: #6366f1;
+  --accent2: #a855f7;
+  --accent3: #06b6d4;
+  --gold: #f59e0b;
+  --green: #10b981;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --glow: rgba(99,102,241,0.35);
+  --radius: 18px;
+  --transition: 0.35s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="light"] {
+  --bg: #f8faff;
+  --bg2: #f0f4ff;
+  --bg3: #e8eeff;
+  --card: #ffffff;
+  --card2: #f5f7ff;
+  --border: rgba(99,102,241,0.2);
+  --text: #0f172a;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --glow: rgba(99,102,241,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  line-height:1.6;
+  transition:background var(--transition),color var(--transition);
+}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
+
+/* CURSOR */
+*{cursor:none!important}
+#cursor{position:fixed;width:12px;height:12px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--accent);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all .12s ease;opacity:0.6}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5vw;height:72px;
+  background:rgba(10,10,15,0.72);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  transition:background var(--transition);
+}
+[data-theme="light"] nav{background:rgba(248,250,255,0.82)}
+.logo{
+  font-family:'Syne',sans-serif;
+  font-size:1.5rem;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:-0.5px;
+}
+.logo span{color:var(--accent3);-webkit-text-fill-color:var(--accent3)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{
+  color:var(--text2);text-decoration:none;font-size:.9rem;font-weight:500;
+  transition:color var(--transition);position:relative;padding-bottom:3px;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:0;width:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width var(--transition);
+}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.lang-switcher{display:flex;gap:4px;background:var(--bg3);border-radius:30px;padding:3px}
+.lang-btn{
+  border:none;background:transparent;color:var(--text2);
+  padding:4px 12px;border-radius:20px;font-size:.78rem;font-weight:600;
+  transition:all .2s;letter-spacing:.5px;
+}
+.lang-btn.active{background:var(--accent);color:#fff}
+.lang-btn:hover:not(.active){color:var(--text);background:var(--border)}
+.theme-toggle{
+  width:42px;height:24px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:30px;position:relative;display:flex;align-items:center;
+}
+.theme-toggle-inner{
+  width:18px;height:18px;background:var(--accent);border-radius:50%;
+  position:absolute;left:3px;transition:transform .3s cubic-bezier(.4,0,.2,1);
+  display:flex;align-items:center;justify-content:center;font-size:10px;
+}
+[data-theme="light"] .theme-toggle-inner{transform:translateX(18px)}
+.btn-nav{
+  padding:9px 22px;border-radius:30px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-size:.85rem;font-weight:600;
+  box-shadow:0 4px 20px var(--glow);
+  transition:all .25s;letter-spacing:.3px;
+}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--glow)}
+.hamburger{display:none;flex-direction:column;gap:5px;width:28px}
+.hamburger span{height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 5vw 80px;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:radial-gradient(ellipse 80% 60% at 60% 30%,rgba(99,102,241,0.13) 0%,transparent 70%),
+             radial-gradient(ellipse 50% 50% at 20% 70%,rgba(168,85,247,0.08) 0%,transparent 60%),
+             radial-gradient(ellipse 40% 40% at 80% 80%,rgba(6,182,212,0.07) 0%,transparent 60%);
+}
+.hero-grid{
+  position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);
+}
+.hero-content{position:relative;z-index:1;max-width:660px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(99,102,241,0.1);border:1px solid var(--border);
+  border-radius:30px;padding:6px 16px;font-size:.78rem;font-weight:600;
+  color:var(--accent);margin-bottom:2rem;letter-spacing:.8px;text-transform:uppercase;
+}
+.hero-badge .dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.6rem,6vw,5rem);
+  font-weight:800;line-height:1.05;
+  letter-spacing:-2px;margin-bottom:1.5rem;
+}
+.hero h1 .line1{display:block;color:var(--text)}
+.hero h1 .line2{
+  display:block;
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:520px;line-height:1.75;margin-bottom:2.5rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{
+  padding:14px 32px;border-radius:50px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-size:1rem;font-weight:600;
+  box-shadow:0 6px 30px var(--glow);
+  transition:all .3s;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px var(--glow)}
+.btn-secondary{
+  padding:14px 32px;border-radius:50px;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--text);font-size:1rem;font-weight:600;
+  transition:all .3s;
+}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);background:rgba(99,102,241,0.07)}
+.hero-stats{
+  display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;
+  border-top:1px solid var(--border);flex-wrap:wrap;
+}
+.hero-stat .num{
+  font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-stat .label{font-size:.8rem;color:var(--text3);letter-spacing:.5px;margin-top:2px}
+.hero-visual{
+  position:absolute;right:5vw;top:50%;transform:translateY(-50%);
+  z-index:1;display:flex;flex-direction:column;gap:1rem;
+  animation:floatY 4s ease-in-out infinite;
+}
+@keyframes floatY{0%,100%{transform:translateY(-50%)}50%{transform:translateY(calc(-50% - 15px))}}
+.code-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:18px 24px;
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);min-width:280px;
+}
+.code-card-header{display:flex;gap:6px;margin-bottom:12px}
+.code-card-header span{width:10px;height:10px;border-radius:50%}
+.code-card-header span:nth-child(1){background:#ff5f57}
+.code-card-header span:nth-child(2){background:#febc2e}
+.code-card-header span:nth-child(3){background:#28c840}
+.code-line{margin:2px 0}
+.code-line .kw{color:#c084fc}
+.code-line .fn{color:#67e8f9}
+.code-line .str{color:#86efac}
+.code-line .cm{color:var(--text3)}
+.floating-tag{
+  position:absolute;background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:8px 14px;font-size:.75rem;font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);white-space:nowrap;
+  display:flex;align-items:center;gap:6px;
+}
+.floating-tag .icon{font-size:1rem}
+#tag1{top:18%;right:38%;animation:floatTag1 5s ease-in-out infinite}
+#tag2{top:45%;right:2%;animation:floatTag2 6s ease-in-out infinite}
+#tag3{bottom:22%;right:32%;animation:floatTag3 4.5s ease-in-out infinite}
+@keyframes floatTag1{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes floatTag2{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+@keyframes floatTag3{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* SECTIONS COMMON */
+section{padding:100px 5vw}
+.section-label{
+  display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;
+}
+.section-title{
+  font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:1rem;
+}
+.section-sub{font-size:1rem;color:var(--text2);max-width:560px;line-height:1.7}
+.section-header{margin-bottom:4rem}
+.section-header.center{text-align:center}
+.section-header.center .section-sub{margin:0 auto}
+
+/* ADVANTAGES */
+.advantages{background:var(--bg2)}
+.adv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.adv-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:2rem;
+  position:relative;overflow:hidden;
+  transition:transform var(--transition),border-color var(--transition),box-shadow var(--transition);
+}
+.adv-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(99,102,241,0.05),transparent);
+  opacity:0;transition:opacity var(--transition);
+}
+.adv-card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 20px 50px rgba(99,102,241,0.15)}
+.adv-card:hover::before{opacity:1}
+.adv-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(168,85,247,0.2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1.2rem;
+}
+.adv-card h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.6rem}
+.adv-card p{font-size:.88rem;color:var(--text2);line-height:1.6}
+.adv-badge{
+  position:absolute;top:1rem;right:1rem;
+  background:rgba(99,102,241,0.15);border:1px solid var(--border);
+  border-radius:20px;padding:3px 10px;font-size:.68rem;font-weight:700;
+  color:var(--accent);letter-spacing:.5px;
+}
+
+/* COURSES */
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.course-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  transition:all var(--transition);
+  display:flex;flex-direction:column;
+}
+.course-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(0,0,0,.35);border-color:var(--accent)}
+.course-thumb{
+  height:180px;display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;position:relative;overflow:hidden;
+}
+.course-thumb::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(0deg,var(--card) 0%,transparent 100%);
+}
+.course-body{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+.course-tag{
+  display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:.7rem;font-weight:700;letter-spacing:.5px;margin-bottom:.8rem;
+}
+.course-card h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+.course-card p{font-size:.85rem;color:var(--text2);line-height:1.6;flex:1}
+.course-meta{
+  display:flex;gap:1rem;margin-top:1rem;padding-top:1rem;
+  border-top:1px solid var(--border);font-size:.78rem;color:var(--text3);
+  flex-wrap:wrap;
+}
+.course-meta span{display:flex;align-items:center;gap:4px}
+.course-footer{
+  padding:1rem 1.5rem;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.course-price{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent)}
+.btn-enroll{
+  padding:7px 18px;border-radius:20px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-size:.8rem;font-weight:600;transition:all .25s;
+}
+.btn-enroll:hover{transform:scale(1.05);box-shadow:0 4px 16px var(--glow)}
+
+/* 24/7 BANNER */
+.banner-24{
+  background:linear-gradient(135deg,var(--card) 0%,rgba(99,102,241,0.12) 50%,var(--card2) 100%);
+  border:1px solid var(--border);border-radius:28px;
+  padding:4rem;display:flex;align-items:center;gap:3rem;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.banner-24::before{
+  content:'24/7';position:absolute;right:-20px;top:50%;transform:translateY(-50%);
+  font-family:'Syne',sans-serif;font-size:12rem;font-weight:800;
+  color:rgba(99,102,241,0.04);line-height:1;pointer-events:none;
+}
+.banner-icon{
+  width:90px;height:90px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-radius:24px;display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;box-shadow:0 12px 40px var(--glow);
+}
+.banner-text h2{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:.5rem}
+.banner-text p{color:var(--text2);max-width:480px;line-height:1.6}
+.banner-features{display:flex;gap:1rem;margin-top:1.2rem;flex-wrap:wrap}
+.banner-feat{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(99,102,241,0.1);border:1px solid var(--border);
+  border-radius:20px;padding:6px 14px;font-size:.8rem;font-weight:500;
+}
+.banner-feat .check{color:var(--green);font-size:.9rem}
+
+/* STUDENTS */
+.students-section{background:var(--bg2)}
+.students-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.student-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.8rem;
+  transition:all var(--transition);
+}
+.student-card:hover{transform:translateY(-5px);border-color:var(--accent2);box-shadow:0 16px 40px rgba(168,85,247,0.12)}
+.student-info{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+.student-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1.1rem;color:#fff;flex-shrink:0;
+  font-family:'Syne',sans-serif;
+}
+.student-name{font-weight:700;font-size:.95rem}
+.student-course{font-size:.78rem;color:var(--accent);margin-top:2px}
+.stars{color:var(--gold);font-size:.85rem;letter-spacing:1px;margin-bottom:.8rem}
+.student-review{font-size:.88rem;color:var(--text2);line-height:1.65;font-style:italic}
+.student-review::before{content:'"';font-size:1.5rem;color:var(--accent);line-height:0;vertical-align:-.4rem;margin-right:4px}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
+.project-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  transition:all var(--transition);
+}
+.project-card:hover{transform:translateY(-6px);border-color:var(--accent3);box-shadow:0 16px 40px rgba(6,182,212,0.12)}
+.project-banner{
+  height:160px;display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;position:relative;overflow:hidden;
+}
+.project-body{padding:1.5rem}
+.project-student{font-size:.75rem;color:var(--text3);margin-bottom:.4rem;display:flex;align-items:center;gap:6px}
+.project-student strong{color:var(--accent3)}
+.project-card h4{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.project-card p{font-size:.84rem;color:var(--text2);line-height:1.6}
+.project-tags{display:flex;gap:.4rem;margin-top:1rem;flex-wrap:wrap}
+.project-tag{
+  padding:3px 10px;border-radius:10px;font-size:.7rem;font-weight:600;
+  background:rgba(6,182,212,0.1);color:var(--accent3);border:1px solid rgba(6,182,212,0.2);
+}
+
+/* TEAM */
+.team-section{background:var(--bg2)}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
+.team-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:2rem 1.5rem;
+  text-align:center;transition:all var(--transition);
+}
+.team-card:hover{transform:translateY(-8px);border-color:var(--accent);box-shadow:0 20px 50px rgba(99,102,241,0.15)}
+.team-avatar{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;
+  position:relative;
+}
+.team-avatar::after{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  border:2px solid transparent;
+  background:linear-gradient(135deg,var(--accent),var(--accent2)) border-box;
+  -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:destination-out;mask-composite:exclude;
+  animation:rotateBorder 4s linear infinite;
+}
+@keyframes rotateBorder{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.team-role{
+  display:inline-block;padding:3px 12px;border-radius:20px;
+  font-size:.7rem;font-weight:700;letter-spacing:.5px;margin-bottom:.8rem;
+}
+.role-mentor{background:rgba(99,102,241,0.15);color:var(--accent)}
+.role-assist{background:rgba(16,185,129,0.15);color:var(--green)}
+.team-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.3rem}
+.team-card p{font-size:.8rem;color:var(--text2)}
+.team-exp{font-size:.72rem;color:var(--text3);margin-top:.4rem;display:flex;align-items:center;justify-content:center;gap:4px}
+.team-skills{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-top:.8rem}
+.team-skill{
+  padding:2px 8px;border-radius:8px;font-size:.68rem;font-weight:600;
+  background:var(--bg3);color:var(--text2);
+}
+
+/* CONTACT */
+.contact-wrapper{
+  display:grid;grid-template-columns:1fr 1.4fr;gap:3rem;align-items:start;
+}
+.contact-info h2{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:1rem}
+.contact-info p{color:var(--text2);line-height:1.7;margin-bottom:2rem}
+.contact-perks{display:flex;flex-direction:column;gap:.8rem}
+.contact-perk{
+  display:flex;align-items:flex-start;gap:.8rem;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:1rem 1.2rem;
+}
+.contact-perk .icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+.contact-perk h4{font-weight:700;font-size:.9rem;margin-bottom:2px}
+.contact-perk p{font-size:.8rem;color:var(--text2);line-height:1.5}
+.contact-form-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:2.5rem;
+}
+.contact-form-card h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:1.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{margin-bottom:1rem}
+.form-group label{
+  display:block;font-size:.8rem;font-weight:600;color:var(--text2);
+  margin-bottom:.5rem;letter-spacing:.3px;
+}
+.form-control{
+  width:100%;padding:12px 16px;
+  background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:12px;color:var(--text);font-size:.9rem;
+  font-family:'DM Sans',sans-serif;
+  transition:border-color .2s,box-shadow .2s;outline:none;
+}
+.form-control:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,0.12)}
+.form-control::placeholder{color:var(--text3)}
+select.form-control{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236366f1'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.interest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.5rem}
+.interest-btn{
+  padding:8px;border-radius:10px;border:1.5px solid var(--border);
+  background:transparent;color:var(--text2);font-size:.75rem;font-weight:600;
+  text-align:center;transition:all .2s;
+}
+.interest-btn.selected,.interest-btn:hover{border-color:var(--accent);background:rgba(99,102,241,0.1);color:var(--accent)}
+.btn-submit{
+  width:100%;padding:15px;border-radius:14px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-size:1rem;font-weight:700;
+  box-shadow:0 6px 24px var(--glow);transition:all .3s;margin-top:.5rem;
+  letter-spacing:.3px;
+}
+.btn-submit:hover{transform:translateY(-3px);box-shadow:0 12px 36px var(--glow)}
+.form-success{
+  display:none;text-align:center;padding:2rem;
+}
+.form-success .check-big{font-size:3rem;margin-bottom:1rem}
+.form-success h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--green);margin-bottom:.5rem}
+
+/* FOOTER */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:60px 5vw 30px;
+}
+.footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem;margin-bottom:3rem}
+.footer-brand .logo{font-size:1.4rem;display:block;margin-bottom:.8rem}
+.footer-brand p{font-size:.85rem;color:var(--text2);line-height:1.7;max-width:280px}
+.footer-socials{display:flex;gap:.8rem;margin-top:1.2rem}
+.social-btn{
+  width:36px;height:36px;border-radius:10px;background:var(--bg3);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;transition:all .2s;text-decoration:none;color:var(--text2);
+}
+.social-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.footer-col h4{font-weight:700;font-size:.9rem;margin-bottom:1.2rem;color:var(--text)}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.footer-col a{font-size:.85rem;color:var(--text2);text-decoration:none;transition:color .2s}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:1.5rem;border-top:1px solid var(--border);
+  font-size:.8rem;color:var(--text3);flex-wrap:wrap;gap:1rem;
+}
+.footer-bottom strong{color:var(--accent)}
+
+/* MOBILE NAV MENU */
+.mobile-menu{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(10,10,15,0.97);backdrop-filter:blur(20px);
+  padding:100px 5vw 3rem;flex-direction:column;gap:1.5rem;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:var(--text);text-decoration:none;transition:color .2s}
+.mobile-menu a:hover{color:var(--accent)}
+.mobile-lang{display:flex;gap:.5rem;margin-top:1rem}
+.mobile-lang .lang-btn{font-size:.9rem;padding:8px 20px}
+.mobile-theme{margin-top:.5rem}
+
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:2.5rem;max-width:500px;width:90%;
+  position:relative;animation:modalIn .3s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;width:32px;height:32px;
+  border-radius:50%;border:1px solid var(--border);background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text2);
+  transition:all .2s;
+}
+.modal-close:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* SCROLL TO TOP */
+#scrollTop{
+  position:fixed;bottom:2rem;right:2rem;z-index:900;
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;color:#fff;font-size:1.2rem;
+  box-shadow:0 6px 24px var(--glow);
+  opacity:0;transform:translateY(10px);
+  transition:all .3s;
+}
+#scrollTop.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-visual{display:none}
+  .contact-wrapper{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links,.btn-nav,.lang-switcher,.theme-toggle{display:none}
+  .hamburger{display:flex}
+  .hero h1{font-size:2.5rem}
+  .banner-24{padding:2rem;flex-direction:column;gap:1.5rem}
+  .form-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .interest-grid{grid-template-columns:repeat(2,1fr)}
+  section{padding:70px 5vw}
+}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-30px);transition:opacity .7s ease,transform .7s ease}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.stagger>*{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.stagger.visible>*{opacity:1;transform:translateY(0)}
+.stagger.visible>*:nth-child(1){transition-delay:.05s}
+.stagger.visible>*:nth-child(2){transition-delay:.12s}
+.stagger.visible>*:nth-child(3){transition-delay:.19s}
+.stagger.visible>*:nth-child(4){transition-delay:.26s}
+.stagger.visible>*:nth-child(5){transition-delay:.33s}
+.stagger.visible>*:nth-child(6){transition-delay:.4s}
+.stagger.visible>*:nth-child(7){transition-delay:.47s}
+.stagger.visible>*:nth-child(8){transition-delay:.54s}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Ezgu<span>Code</span></div>
+  <ul class="nav-links">
+    <li><a href="#courses" data-key="nav_courses">Kurslar</a></li>
+    <li><a href="#advantages" data-key="nav_advantages">Ustunliklar</a></li>
+    <li><a href="#students" data-key="nav_students">O'quvchilar</a></li>
+    <li><a href="#team" data-key="nav_team">Jamoamiz</a></li>
+    <li><a href="#contact" data-key="nav_contact">Bog'lanish</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('uz')">UZ</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <div class="theme-toggle-inner">☀️</div>
+    </div>
+    <button class="btn-nav" onclick="scrollToContact()" data-key="nav_cta">Ro'yxatdan o'tish</button>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#courses" onclick="toggleMenu()" data-key="nav_courses">Kurslar</a>
+  <a href="#advantages" onclick="toggleMenu()" data-key="nav_advantages">Ustunliklar</a>
+  <a href="#students" onclick="toggleMenu()" data-key="nav_students">O'quvchilar</a>
+  <a href="#team" onclick="toggleMenu()" data-key="nav_team">Jamoamiz</a>
+  <a href="#contact" onclick="toggleMenu()" data-key="nav_contact">Bog'lanish</a>
+  <div class="mobile-lang">
+    <button class="lang-btn active" onclick="setLang('uz');toggleMenu()">UZ</button>
+    <button class="lang-btn" onclick="setLang('ru');toggleMenu()">RU</button>
+    <button class="lang-btn" onclick="setLang('en');toggleMenu()">EN</button>
+  </div>
+  <div class="mobile-theme">
+    <div class="theme-toggle" onclick="toggleTheme()" style="display:inline-flex">
+      <div class="theme-toggle-inner">☀️</div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content reveal">
+    <div class="hero-badge"><span class="dot"></span> <span data-key="hero_badge">Online Ta'lim Platformasi</span></div>
+    <h1>
+      <span class="line1" data-key="hero_title1">Kelajakni Kod</span>
+      <span class="line2" data-key="hero_title2">Bilan Qur!</span>
+    </h1>
+    <p data-key="hero_desc">EzguCode School — Dasturlash, AI, Robototexnika va Dizayn yo'nalishlarida sifatli online ta'lim. 24/7 video darsliklar, tajribali mentorlar va amaliy loyihalar bilan.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollToContact()" data-key="hero_btn1">Bepul Boshlash →</button>
+      <button class="btn-secondary" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})" data-key="hero_btn2">Kurslarni Ko'rish</button>
+    </div>
+    <div class="hero-stats stagger">
+      <div class="hero-stat"><div class="num">500+</div><div class="label" data-key="stat1">O'quvchi</div></div>
+      <div class="hero-stat"><div class="num">15+</div><div class="label" data-key="stat2">Kurs</div></div>
+      <div class="hero-stat"><div class="num">98%</div><div class="label" data-key="stat3">Mamnun o'quvchilar</div></div>
+      <div class="hero-stat"><div class="num">24/7</div><div class="label" data-key="stat4">Video Darsliklar</div></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="code-card">
+      <div class="code-card-header"><span></span><span></span><span></span></div>
+      <div class="code-line"><span class="kw">def</span> <span class="fn">ezgu_future</span>():</div>
+      <div class="code-line">&nbsp;&nbsp;<span class="cm"># Kelajakni kod bilan qur</span></div>
+      <div class="code-line">&nbsp;&nbsp;skills = [<span class="str">"Python"</span>, <span class="str">"AI"</span>]</div>
+      <div class="code-line">&nbsp;&nbsp;<span class="kw">return</span> <span class="str">"Muvaffaqiyat 🚀"</span></div>
+    </div>
+  </div>
+  <div class="floating-tag" id="tag1"><span class="icon">🐍</span> Python</div>
+  <div class="floating-tag" id="tag2"><span class="icon">🤖</span> AI / ML</div>
+  <div class="floating-tag" id="tag3"><span class="icon">🎨</span> UI/UX Design</div>
+</section>
+
+<!-- ADVANTAGES -->
+<section class="advantages" id="advantages">
+  <div class="section-header center reveal">
+    <div class="section-label" data-key="adv_label">Nima uchun biz?</div>
+    <h2 class="section-title" data-key="adv_title">Boshqa saytlardan ustunliklarimiz</h2>
+    <p class="section-sub" data-key="adv_sub">EzguCode maktabi boshqa IT ta'lim platformalaridan tubdan farq qiladi</p>
+  </div>
+  <div class="adv-grid stagger">
+    <div class="adv-card"><div class="adv-badge">🏆 #1</div><div class="adv-icon">📹</div><h3 data-key="adv1_t">24/7 Video Darsliklar</h3><p data-key="adv1_d">Istalgan vaqt, istalgan joyda o'qing. Barcha darsliklar HD sifatda, qayta ko'rish imkoniyati bilan.</p></div>
+    <div class="adv-card"><div class="adv-badge">💡 Yangi</div><div class="adv-icon">🤖</div><h3 data-key="adv2_t">AI Yordamchi</h3><p data-key="adv2_d">Sun'iy intellekt yordamida shaxsiy o'quv rejasi tuzing. Har bir o'quvchiga individual yondashuv.</p></div>
+    <div class="adv-card"><div class="adv-badge">🔥 Mashhur</div><div class="adv-icon">👨‍🏫</div><h3 data-key="adv3_t">Tajribali Mentorlar</h3><p data-key="adv3_d">5+ yil tajribaga ega amaliyotchi dasturchilar va dizaynerlar tomonidan o'qitilasiz.</p></div>
+    <div class="adv-card"><div class="adv-badge">✅ Kafolat</div><div class="adv-icon">💼</div><h3 data-key="adv4_t">Ish Bilan Ta'minlash</h3><p data-key="adv4_d">Kursni tugatgach, bizning hamkor kompaniyalar bilan intervyuga kirish imkoniyati.</p></div>
+    <div class="adv-card"><div class="adv-badge">🌐 Online</div><div class="adv-icon">🌍</div><h3 data-key="adv5_t">3 Tilda Ta'lim</h3><p data-key="adv5_d">O'zbek, Rus va Ingliz tillarida darslar. Tanlagan tilingizda qulay o'qing.</p></div>
+    <div class="adv-card"><div class="adv-badge">⭐ Sertifikat</div><div class="adv-icon">🏅</div><h3 data-key="adv6_t">Rasmiy Sertifikat</h3><p data-key="adv6_d">Kurs tugagach xalqaro tan olingan sertifikat oling va portfolio yarating.</p></div>
+    <div class="adv-card"><div class="adv-badge">💬 Jonli</div><div class="adv-icon">💬</div><h3 data-key="adv7_t">Jonli Muhokama</h3><p data-key="adv7_d">Discord va Telegram guruhlarida mentorlar va tengdoshlar bilan real-time muloqot.</p></div>
+    <div class="adv-card"><div class="adv-badge">🎯 Amaliy</div><div class="adv-icon">🛠️</div><h3 data-key="adv8_t">Real Loyihalar</h3><p data-key="adv8_d">Nazariy bilim emas — real dunyo loyihalari, hackathonlar va production-level kodlar.</p></div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="section-header center reveal">
+    <div class="section-label" data-key="courses_label">Ta'lim yo'nalishlari</div>
+    <h2 class="section-title" data-key="courses_title">Kurslarimiz</h2>
+    <p class="section-sub" data-key="courses_sub">Dasturlashdan tortib Dizayngacha — siz uchun eng mos yo'nalishni tanlang</p>
+  </div>
+  <div class="courses-grid stagger">
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#1e1b4b,#312e81)">🐍</div>
+      <div class="course-body">
+        <span class="course-tag" style="background:rgba(99,102,241,0.15);color:#818cf8">Dasturlash</span>
+        <h3 data-key="c1_title">Python Dasturlash</h3>
+        <p data-key="c1_desc">Noldan professional darajagacha Python. Web, Data Science va Avtomatizatsiya.</p>
+        <div class="course-meta">
+          <span>⏱ <span data-key="c1_dur">6 oy</span></span>
+          <span>📹 120+ <span data-key="vid">dars</span></span>
+          <span>👥 200+ <span data-key="student">o'quvchi</span></span>
+        </div>
+      </div>
+      <div class="course-footer">
+        <span class="course-price">999,000 <span data-key="sum">so'm/oy</span></span>
+        <button class="btn-enroll" onclick="scrollToContact()" data-key="enroll">Yozilish</button>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#0c1a2e,#164e63)">🤖</div>
+      <div class="course-body">
+        <span class="course-tag" style="background:rgba(6,182,212,0.15);color:#22d3ee">AI / ML</span>
+        <h3 data-key="c2_title">Sun'iy Intellekt & ML</h3>
+        <p data-key="c2_desc">Machine Learning, Deep Learning, ChatGPT API va haqiqiy AI loyihalari.</p>
+        <div class="course-meta">
+          <span>⏱ <span data-key="c2_dur">8 oy</span></span>
+          <span>📹 160+ <span data-key="vid">dars</span></span>
+          <span>👥 85+ <span data-key="student">o'quvchi</span></span>
+        </div>
+      </div>
+      <div class="course-footer">
+        <span class="course-price">1,299,000 <span data-key="sum">so'm/oy</span></span>
+        <button class="btn-enroll" onclick="scrollToContact()" data-key="enroll">Yozilish</button>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#1a0533,#4c1d95)">🤖🦾</div>
+      <div class="course-body">
+        <span class="course-tag" style="background:rgba(168,85,247,0.15);color:#c084fc">Robototexnika</span>
+        <h3 data-key="c3_title">Robototexnika & Arduino</h3>
+        <p data-key="c3_desc">Arduino, Raspberry Pi va real robot qurilmalarni dasturlash va yig'ish.</p>
+        <div class="course-meta">
+          <span>⏱ <span data-key="c3_dur">5 oy</span></span>
+          <span>📹 90+ <span data-key="vid">dars</span></span>
+          <span>👥 60+ <span data-key="student">o'quvchi</span></span>
+        </div>
+      </div>
+      <div class="course-footer">
+        <span class="course-price">899,000 <span data-key="sum">so'm/oy</span></span>
+        <button class="btn-enroll" onclick="scrollToContact()" data-key="enroll">Yozilish</button>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#1c1917,#78350f)">🎨</div>
+      <div class="course-body">
+        <span class="course-tag" style="background:rgba(245,158,11,0.15);color:#fbbf24">Dizayn</span>
+        <h3 data-key="c4_title">UI/UX Dizayn</h3>
+        <p data-key="c4_desc">Figma, Adobe XD va dizayn tizimlarini o'rganib real mahsulotlar yarating.</p>
+        <div class="course-meta">
+          <span>⏱ <span data-key="c4_dur">4 oy</span></span>
+          <span>📹 80+ <span data-key="vid">dars</span></span>
+          <span>👥 110+ <span data-key="student">o'quvchi</span></span>
+        </div>
+      </div>
+      <div class="course-footer">
+        <span class="course-price">799,000 <span data-key="sum">so'm/oy</span></span>
+        <button class="btn-enroll" onclick="scrollToContact()" data-key="enroll">Yozilish</button>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#0f2027,#203a43,#2c5364)">🌐</div>
+      <div class="course-body">
+        <span class="course-tag" style="background:rgba(16,185,129,0.15);color:#34d399">Web Dev</span>
+        <h3 data-key="c5_title">Full-Stack Web Dasturlash</h3>
+        <p data-key="c5_desc">HTML, CSS, JavaScript, React va Node.js bilan to'liq veb sayt yarating.</p>
+        <div class="course-meta">
+          <span>⏱ <span data-key="c5_dur">9 oy</span></span>
+          <span>📹 200+ <span data-key="vid">dars</span></span>
+          <span>👥 150+ <span data-key="student">o'quvchi</span></span>
+        </div>
+      </div>
+      <div class="course-footer">
+        <span class="course-price">1,199,000 <span data-key="sum">so'm/oy</span></span>
+        <button class="btn-enroll" onclick="scrollToContact()" data-key="enroll">Yozilish</button>
+      </div>
+    </div>
+    <div class="course-card" style="border-style:dashed;background:transparent;align-items:center;justify-content:center;min-height:280px">
+      <div style="text-align:center;padding:2rem">
+        <div style="font-size:3rem;margin-bottom:1rem">➕</div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.5rem" data-key="c6_title">O'zingiz tanlang</h3>
+        <p style="color:var(--text2);font-size:.88rem;margin-bottom:1rem" data-key="c6_desc">Siz xohlagan IT yo'nalishida maxsus kurs tuzing</p>
+        <button class="btn-enroll" onclick="scrollToContact()" data-key="c6_btn">Bog'lanish</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 24/7 BANNER -->
+<section style="padding:0 5vw 100px">
+  <div class="banner-24 reveal">
+    <div class="banner-icon">📹</div>
+    <div class="banner-text">
+      <h2 data-key="banner_title">24/7 Video Darsliklar — Istalgan Vaqt</h2>
+      <p data-key="banner_desc">Uyda, metroda, ishda — darslaringizni hech qachon o'tkazib yubormang. Barcha videolar HD sifatda va offline ko'rish imkoniyati bilan.</p>
+      <div class="banner-features">
+        <div class="banner-feat"><span class="check">✓</span> <span data-key="bf1">HD Sifat</span></div>
+        <div class="banner-feat"><span class="check">✓</span> <span data-key="bf2">Offline Rejim</span></div>
+        <div class="banner-feat"><span class="check">✓</span> <span data-key="bf3">Subtitlar</span></div>
+        <div class="banner-feat"><span class="check">✓</span> <span data-key="bf4">Tezlik Boshqaruvi</span></div>
+        <div class="banner-feat"><span class="check">✓</span> <span data-key="bf5">Qayta Ko'rish</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDENTS REVIEWS -->
+<section class="students-section" id="students">
+  <div class="section-header center reveal">
+    <div class="section-label" data-key="rev_label">Izohlar</div>
+    <h2 class="section-title" data-key="rev_title">O'quvchilarimiz nima deydi</h2>
+    <p class="section-sub" data-key="rev_sub">Haqiqiy o'quvchilarimizning haqiqiy izohlari</p>
+  </div>
+  <div class="students-grid stagger">
+    <div class="student-card">
+      <div class="student-info">
+        <div class="student-avatar" style="background:linear-gradient(135deg,#6366f1,#a855f7)">JB</div>
+        <div><div class="student-name">Jasurbek Mirzayev</div><div class="student-course" data-key="course_python">Python Kurs</div></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <div class="student-review" data-key="r1">EzguCode maktabi hayotimni o'zgartirdi. 6 oy ichida Python o'rganib, hozirgacha IT kompaniyada ishlayman. Mentorlar har doim yordam berdi!</div>
+    </div>
+    <div class="student-card">
+      <div class="student-info">
+        <div class="student-avatar" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">MN</div>
+        <div><div class="student-name">Malika Nazarova</div><div class="student-course" data-key="course_design">UI/UX Dizayn</div></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <div class="student-review" data-key="r2">24/7 video darsliklar juda qulay! Ish bilan birga o'qidim. Hozir freeland orqali oyiga 3 million ishlayapman. Rahmat EzguCode!</div>
+    </div>
+    <div class="student-card">
+      <div class="student-info">
+        <div class="student-avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706)">SA</div>
+        <div><div class="student-name">Sherzod Abdullayev</div><div class="student-course" data-key="course_ai">AI / ML Kurs</div></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <div class="student-review" data-key="r3">AI kursida real loyihalar qildik. Mentorlarimiz tajribali va mehribon. Kursni tavsiya qilaman!</div>
+    </div>
+    <div class="student-card">
+      <div class="student-info">
+        <div class="student-avatar" style="background:linear-gradient(135deg,#10b981,#059669)">ZT</div>
+        <div><div class="student-name">Zulfiya Toshmatova</div><div class="student-course" data-key="course_web">Full-Stack Web</div></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <div class="student-review" data-key="r4">Avval dasturlashdan qo'rqardim. EzguCode mentorlaridan so'ng hamma narsa oson bo'lib ketdi. Sertifikatim bilan ish topdim!</div>
+    </div>
+    <div class="student-card">
+      <div class="student-info">
+        <div class="student-avatar" style="background:linear-gradient(135deg,#f43f5e,#e11d48)">AU</div>
+        <div><div class="student-name">Alisher Usmonov</div><div class="student-course" data-key="course_robo">Robototexnika</div></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <div class="student-review" data-key="r5">Robot loyihasini maktabimda ko'rsatdim, olimpiadada 1-o'rin oldim! EzguCode ishlamasa bu muvaffaqiyat bo'lmasdi.</div>
+    </div>
+    <div class="student-card">
+      <div class="student-info">
+        <div class="student-avatar" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">NR</div>
+        <div><div class="student-name">Nodira Rahimova</div><div class="student-course" data-key="course_python">Python Kurs</div></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <div class="student-review" data-key="r6">Onlayn o'qish qulay, mentorlar tez javob beradi. Portfolio loyiham orqali Google'da stajga kirdim!</div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDENT PROJECTS -->
+<section id="projects">
+  <div class="section-header center reveal">
+    <div class="section-label" data-key="proj_label">Portfolio</div>
+    <h2 class="section-title" data-key="proj_title">O'quvchilar loyihalari</h2>
+    <p class="section-sub" data-key="proj_sub">Real o'quvchilarimiz tomonidan yaratilgan haqiqiy loyihalar</p>
+  </div>
+  <div class="projects-grid stagger">
+    <div class="project-card">
+      <div class="project-banner" style="background:linear-gradient(135deg,#1e1b4b,#3730a3)">🛒</div>
+      <div class="project-body">
+        <div class="project-student">👤 <strong>Jasurbek Mirzayev</strong> · Python kursi</div>
+        <h4 data-key="p1_t">E-Commerce Sayt</h4>
+        <p data-key="p1_d">Django bilan yaratilgan to'liq funksiyali onlayn do'kon. To'lov tizimi va admin panel bilan.</p>
+        <div class="project-tags"><span class="project-tag">Django</span><span class="project-tag">Python</span><span class="project-tag">PostgreSQL</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-banner" style="background:linear-gradient(135deg,#064e3b,#065f46)">🤖</div>
+      <div class="project-body">
+        <div class="project-student">👤 <strong>Sherzod Abdullayev</strong> · AI kursi</div>
+        <h4 data-key="p2_t">AI Chatbot</h4>
+        <p data-key="p2_d">GPT API asosida yaratilgan o'zbek tilida savol-javob chatboti. 95% aniqlik darajasi.</p>
+        <div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">GPT API</span><span class="project-tag">FastAPI</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-banner" style="background:linear-gradient(135deg,#78350f,#92400e)">🎨</div>
+      <div class="project-body">
+        <div class="project-student">👤 <strong>Malika Nazarova</strong> · Dizayn kursi</div>
+        <h4 data-key="p3_t">Mobil Ilova Dizayni</h4>
+        <p data-key="p3_d">Food delivery uchun to'liq Figma prototip. 40+ ekran, dizayn tizimi va animatsiyalar.</p>
+        <div class="project-tags"><span class="project-tag">Figma</span><span class="project-tag">Prototyping</span><span class="project-tag">UI/UX</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-banner" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8)">🌐</div>
+      <div class="project-body">
+        <div class="project-student">👤 <strong>Zulfiya Toshmatova</strong> · Web kursi</div>
+        <h4 data-key="p4_t">Portfolio Sayt</h4>
+        <p data-key="p4_d">React va Three.js bilan yaratilgan interaktiv 3D portfolio. Animatsiyalar va smooth scroll.</p>
+        <div class="project-tags"><span class="project-tag">React</span><span class="project-tag">Three.js</span><span class="project-tag">GSAP</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-banner" style="background:linear-gradient(135deg,#4c1d95,#5b21b6)">🦾</div>
+      <div class="project-body">
+        <div class="project-student">👤 <strong>Alisher Usmonov</strong> · Robo kursi</div>
+        <h4 data-key="p5_t">Avtomatik Suv Beruvchi Robot</h4>
+        <p data-key="p5_d">Arduino asosida tuproq namligini o'lchab o'simliklarni avtomatik sug'oradigan robot.</p>
+        <div class="project-tags"><span class="project-tag">Arduino</span><span class="project-tag">C++</span><span class="project-tag">IoT</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-banner" style="background:linear-gradient(135deg,#134e4a,#0f766e)">📊</div>
+      <div class="project-body">
+        <div class="project-student">👤 <strong>Nodira Rahimova</strong> · Python kursi</div>
+        <h4 data-key="p6_t">Data Dashboard</h4>
+        <p data-key="p6_d">Pandas va Plotly bilan yaratilgan interaktiv ma'lumotlar tahlili paneli.</p>
+        <div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Pandas</span><span class="project-tag">Plotly</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section" id="team">
+  <div class="section-header center reveal">
+    <div class="section-label" data-key="team_label">Jamoamiz</div>
+    <h2 class="section-title" data-key="team_title">Mentorlar va O'qituvchilar</h2>
+    <p class="section-sub" data-key="team_sub">Tajribali va mehribon jamoamiz sizni muvaffaqiyatga olib boradi</p>
+  </div>
+  <div style="margin-bottom:2rem">
+    <p class="section-label" data-key="mentors_label" style="font-size:.9rem;margin-bottom:1.5rem;display:block">— Bosh Mentorlar</p>
+    <div class="team-grid stagger">
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#6366f1,#a855f7)">BA</div>
+        <span class="team-role role-mentor" data-key="mentor_role">Bosh Mentor</span>
+        <h3>Bobur Alimov</h3>
+        <p data-key="m1_spec">Python & AI Mutaxassisi</p>
+        <div class="team-exp">⭐ <span data-key="m1_exp">7 yil tajriba · Google sertifikati</span></div>
+        <div class="team-skills"><span class="team-skill">Python</span><span class="team-skill">TensorFlow</span><span class="team-skill">FastAPI</span></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">GY</div>
+        <span class="team-role role-mentor" data-key="mentor_role">Bosh Mentor</span>
+        <h3>Gulnora Yusupova</h3>
+        <p data-key="m2_spec">UI/UX va Product Design</p>
+        <div class="team-exp">⭐ <span data-key="m2_exp">6 yil tajriba · Figma Ambassador</span></div>
+        <div class="team-skills"><span class="team-skill">Figma</span><span class="team-skill">Framer</span><span class="team-skill">UX Research</span></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#10b981,#059669)">RH</div>
+        <span class="team-role role-mentor" data-key="mentor_role">Bosh Mentor</span>
+        <h3>Rustam Holmatov</h3>
+        <p data-key="m3_spec">Full-Stack Web Dasturchi</p>
+        <div class="team-exp">⭐ <span data-key="m3_exp">8 yil tajriba · AWS sertifikati</span></div>
+        <div class="team-skills"><span class="team-skill">React</span><span class="team-skill">Node.js</span><span class="team-skill">DevOps</span></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706)">NO</div>
+        <span class="team-role role-mentor" data-key="mentor_role">Bosh Mentor</span>
+        <h3>Nodir Ortiqov</h3>
+        <p data-key="m4_spec">Robototexnika & Embedded</p>
+        <div class="team-exp">⭐ <span data-key="m4_exp">5 yil tajriba · IEEE a'zosi</span></div>
+        <div class="team-skills"><span class="team-skill">Arduino</span><span class="team-skill">Raspberry Pi</span><span class="team-skill">C++</span></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p class="section-label" data-key="assist_label" style="font-size:.9rem;margin-bottom:1.5rem;display:block">— Yordamchi O'qituvchilar</p>
+    <div class="team-grid stagger">
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);width:64px;height:64px;font-size:1.2rem">SK</div>
+        <span class="team-role role-assist" data-key="assist_role">Yordamchi Ustoz</span>
+        <h3>Sarvar Karimov</h3>
+        <p data-key="a1_spec">Python va Django</p>
+        <div class="team-exp">⭐ <span data-key="a1_exp">2 yil tajriba</span></div>
+        <div class="team-skills"><span class="team-skill">Python</span><span class="team-skill">Django</span></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#f43f5e,#e11d48);width:64px;height:64px;font-size:1.2rem">DM</div>
+        <span class="team-role role-assist" data-key="assist_role">Yordamchi Ustoz</span>
+        <h3>Dilnoza Mamatova</h3>
+        <p data-key="a2_spec">UI/UX Dizayn</p>
+        <div class="team-exp">⭐ <span data-key="a2_exp">3 yil tajriba</span></div>
+        <div class="team-skills"><span class="team-skill">Figma</span><span class="team-skill">Adobe XD</span></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);width:64px;height:64px;font-size:1.2rem">JQ</div>
+        <span class="team-role role-assist" data-key="assist_role">Yordamchi Ustoz</span>
+        <h3>Jahongir Qodirov</h3>
+        <p data-key="a3_spec">JavaScript & React</p>
+        <div class="team-exp">⭐ <span data-key="a3_exp">2 yil tajriba</span></div>
+        <div class="team-skills"><span class="team-skill">React</span><span class="team-skill">TypeScript</span></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#34d399,#10b981);width:64px;height:64px;font-size:1.2rem">ZI</div>
+        <span class="team-role role-assist" data-key="assist_role">Yordamchi Ustoz</span>
+        <h3>Ziyoda Ismoilova</h3>
+        <p data-key="a4_spec">Machine Learning</p>
+        <div class="team-exp">⭐ <span data-key="a4_exp">2 yil tajriba</span></div>
+        <div class="team-skills"><span class="team-skill">ML</span><span class="team-skill">Scikit-learn</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div class="section-label" data-key="contact_label">Bog'lanish</div>
+    <h2 class="section-title" data-key="contact_title">Kursga Yoziling</h2>
+    <p class="section-sub" data-key="contact_sub">Birinchi qadamni bosing — qolganini biz hal qilamiz!</p>
+  </div>
+  <div class="contact-wrapper">
+    <div class="contact-info reveal-left">
+      <div class="contact-perks">
+        <div class="contact-perk"><div class="icon">🎯</div><div><h4 data-key="cp1_t">Bepul Konsultatsiya</h4><p data-key="cp1_d">Sizga mos kursni aniqlashda yordam beramiz</p></div></div>
+        <div class="contact-perk"><div class="icon">📞</div><div><h4 data-key="cp2_t">Tez Javob</h4><p data-key="cp2_d">30 daqiqa ichida siz bilan bog'lanamiz</p></div></div>
+        <div class="contact-perk"><div class="icon">🎁</div><div><h4 data-key="cp3_t">Birinchi Dars Bepul</h4><p data-key="cp3_d">Yozilishdan oldin sinab ko'ring</p></div></div>
+        <div class="contact-perk"><div class="icon">📍</div><div><h4 data-key="cp4_t">Manzil</h4><p data-key="cp4_d">Toshkent shahar, online format</p></div></div>
+        <div class="contact-perk"><div class="icon">📱</div><div><h4>Telegram</h4><p>@ezgucode_school</p></div></div>
+      </div>
+    </div>
+    <div class="contact-form-card reveal">
+      <h3 data-key="form_title">Ariza qoldiring</h3>
+      <div id="formContent">
+        <div class="form-row">
+          <div class="form-group"><label data-key="f_name">Ismingiz</label><input type="text" class="form-control" id="f_name" data-key-ph="ph_name" placeholder="Ism Familiya"></div>
+          <div class="form-group"><label data-key="f_phone">Telefon raqam</label><input type="tel" class="form-control" id="f_phone" placeholder="+998 XX XXX XX XX"></div>
+        </div>
+        <div class="form-group">
+          <label data-key="f_course">Qaysi kursga qiziqasiz?</label>
+          <select class="form-control" id="f_course">
+            <option value="" data-key="f_course_sel">Tanlang...</option>
+            <option value="python" data-key="c1_title">Python Dasturlash</option>
+            <option value="ai" data-key="c2_title">Sun'iy Intellekt & ML</option>
+            <option value="robo" data-key="c3_title">Robototexnika & Arduino</option>
+            <option value="design" data-key="c4_title">UI/UX Dizayn</option>
+            <option value="web" data-key="c5_title">Full-Stack Web</option>
+            <option value="custom" data-key="c6_title">O'zingiz tanlang</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label data-key="f_laptop">Noutbukingiz bormi?</label>
+          <select class="form-control" id="f_laptop">
+            <option value="" data-key="f_course_sel">Tanlang...</option>
+            <option value="yes" data-key="opt_yes">Ha, bor</option>
+            <option value="no" data-key="opt_no">Yo'q, yo'q</option>
+            <option value="plan" data-key="opt_plan">Sotib olishni rejalashtiraman</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label data-key="f_interest">Qiziqish darajangiz</label>
+          <div class="interest-grid" id="interestGrid">
+            <div class="interest-btn" onclick="toggleInterest(this)" data-key="int1">🔰 Yangi boshlovchi</div>
+            <div class="interest-btn" onclick="toggleInterest(this)" data-key="int2">📚 Asoslarni bilaman</div>
+            <div class="interest-btn" onclick="toggleInterest(this)" data-key="int3">💡 O'rta daraja</div>
+            <div class="interest-btn" onclick="toggleInterest(this)" data-key="int4">🚀 Ish topmoqchi</div>
+            <div class="interest-btn" onclick="toggleInterest(this)" data-key="int5">💼 Freeland qilmoqchi</div>
+            <div class="interest-btn" onclick="toggleInterest(this)" data-key="int6">🎓 Bilimni oshirmoqchi</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-key="f_time">Qulay vaqt?</label>
+          <select class="form-control" id="f_time">
+            <option value="" data-key="f_course_sel">Tanlang...</option>
+            <option value="morning" data-key="t1">Ertalab (9:00–12:00)</option>
+            <option value="day" data-key="t2">Kunduz (12:00–17:00)</option>
+            <option value="evening" data-key="t3">Kechqurun (17:00–21:00)</option>
+            <option value="anytime" data-key="t4">Istalgan vaqt</option>
+          </select>
+        </div>
+        <button class="btn-submit" onclick="submitForm()" data-key="f_submit">🚀 Hoziroq Yozilish</button>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <div class="check-big">✅</div>
+        <h3 data-key="fs_title">Arizangiz qabul qilindi!</h3>
+        <p data-key="fs_desc">Tez orada siz bilan bog'lanamiz. Telegram: @ezgucode_school</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo">Ezgu<span>Code</span></span>
+      <p data-key="footer_desc">O'zbekistondagi eng sifatli IT ta'lim maktabi. Kelajakni kod bilan quring!</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#">📱</a>
+        <a class="social-btn" href="#">💬</a>
+        <a class="social-btn" href="#">🐦</a>
+        <a class="social-btn" href="#">▶️</a>
+        <a class="social-btn" href="#">💼</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-key="fc1">Kurslar</h4>
+      <ul>
+        <li><a href="#" data-key="c1_title">Python</a></li>
+        <li><a href="#" data-key="c2_title">AI / ML</a></li>
+        <li><a href="#" data-key="c3_title">Robototexnika</a></li>
+        <li><a href="#" data-key="c4_title">UI/UX Dizayn</a></li>
+        <li><a href="#" data-key="c5_title">Full-Stack Web</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-key="fc2">Kompaniya</h4>
+      <ul>
+        <li><a href="#" data-key="fc2_1">Biz haqimizda</a></li>
+        <li><a href="#" data-key="fc2_2">Jamoamiz</a></li>
+        <li><a href="#" data-key="fc2_3">Karriera</a></li>
+        <li><a href="#" data-key="fc2_4">Blog</a></li>
+        <li><a href="#" data-key="fc2_5">Yangiliklar</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-key="fc3">Yordam</h4>
+      <ul>
+        <li><a href="#" data-key="fc3_1">FAQ</a></li>
+        <li><a href="#" data-key="fc3_2">Qo'llanma</a></li>
+        <li><a href="#" data-key="fc3_3">Sertifikatlar</a></li>
+        <li><a href="#contact" data-key="nav_contact">Bog'lanish</a></li>
+        <li><a href="#" data-key="fc3_5">Maxfiylik</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 <strong>EzguCode School</strong>. <span data-key="footer_rights">Barcha huquqlar himoyalangan.</span></span>
+    <span data-key="footer_made">❤️ Toshkentda yaratildi</span>
+  </div>
+</footer>
+
+<!-- SCROLL TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ============ TRANSLATIONS ============
+const translations = {
+  uz: {
+    nav_courses:"Kurslar",nav_advantages:"Ustunliklar",nav_students:"O'quvchilar",nav_team:"Jamoamiz",nav_contact:"Bog'lanish",nav_cta:"Ro'yxatdan o'tish",
+    hero_badge:"Online Ta'lim Platformasi",hero_title1:"Kelajakni Kod",hero_title2:"Bilan Qur!",
+    hero_desc:"EzguCode School — Dasturlash, AI, Robototexnika va Dizayn yo'nalishlarida sifatli online ta'lim. 24/7 video darsliklar, tajribali mentorlar va amaliy loyihalar bilan.",
+    hero_btn1:"Bepul Boshlash →",hero_btn2:"Kurslarni Ko'rish",
+    stat1:"O'quvchi",stat2:"Kurs",stat3:"Mamnun o'quvchilar",stat4:"Video Darsliklar",
+    adv_label:"Nima uchun biz?",adv_title:"Boshqa saytlardan ustunliklarimiz",adv_sub:"EzguCode maktabi boshqa IT ta'lim platformalaridan tubdan farq qiladi",
+    adv1_t:"24/7 Video Darsliklar",adv1_d:"Istalgan vaqt, istalgan joyda o'qing. Barcha darsliklar HD sifatda, qayta ko'rish imkoniyati bilan.",
+    adv2_t:"AI Yordamchi",adv2_d:"Sun'iy intellekt yordamida shaxsiy o'quv rejasi tuzing. Har bir o'quvchiga individual yondashuv.",
+    adv3_t:"Tajribali Mentorlar",adv3_d:"5+ yil tajribaga ega amaliyotchi dasturchilar va dizaynerlar tomonidan o'qitilasiz.",
+    adv4_t:"Ish Bilan Ta'minlash",adv4_d:"Kursni tugatgach, bizning hamkor kompaniyalar bilan intervyuga kirish imkoniyati.",
+    adv5_t:"3 Tilda Ta'lim",adv5_d:"O'zbek, Rus va Ingliz tillarida darslar. Tanlagan tilingizda qulay o'qing.",
+    adv6_t:"Rasmiy Sertifikat",adv6_d:"Kurs tugagach xalqaro tan olingan sertifikat oling va portfolio yarating.",
+    adv7_t:"Jonli Muhokama",adv7_d:"Discord va Telegram guruhlarida mentorlar va tengdoshlar bilan real-time muloqot.",
+    adv8_t:"Real Loyihalar",adv8_d:"Nazariy bilim emas — real dunyo loyihalari, hackathonlar va production-level kodlar.",
+    courses_label:"Ta'lim yo'nalishlari",courses_title:"Kurslarimiz",courses_sub:"Dasturlashdan tortib Dizayngacha — siz uchun eng mos yo'nalishni tanlang",
+    c1_title:"Python Dasturlash",c1_desc:"Noldan professional darajagacha Python. Web, Data Science va Avtomatizatsiya.",c1_dur:"6 oy",
+    c2_title:"Sun'iy Intellekt & ML",c2_desc:"Machine Learning, Deep Learning, ChatGPT API va haqiqiy AI loyihalari.",c2_dur:"8 oy",
+    c3_title:"Robototexnika & Arduino",c3_desc:"Arduino, Raspberry Pi va real robot qurilmalarni dasturlash va yig'ish.",c3_dur:"5 oy",
+    c4_title:"UI/UX Dizayn",c4_desc:"Figma, Adobe XD va dizayn tizimlarini o'rganib real mahsulotlar yarating.",c4_dur:"4 oy",
+    c5_title:"Full-Stack Web Dasturlash",c5_desc:"HTML, CSS, JavaScript, React va Node.js bilan to'liq veb sayt yarating.",c5_dur:"9 oy",
+    c6_title:"O'zingiz tanlang",c6_desc:"Siz xohlagan IT yo'nalishida maxsus kurs tuzing",c6_btn:"Bog'lanish",
+    vid:"dars",student:"o'quvchi",sum:"so'm/oy",enroll:"Yozilish",
+    banner_title:"24/7 Video Darsliklar — Istalgan Vaqt",banner_desc:"Uyda, metroda, ishda — darslaringizni hech qachon o'tkazib yubormang. Barcha videolar HD sifatda va offline ko'rish imkoniyati bilan.",
+    bf1:"HD Sifat",bf2:"Offline Rejim",bf3:"Subtitlar",bf4:"Tezlik Boshqaruvi",bf5:"Qayta Ko'rish",
+    rev_label:"Izohlar",rev_title:"O'quvchilarimiz nima deydi",rev_sub:"Haqiqiy o'quvchilarimizning haqiqiy izohlari",
+    course_python:"Python Kurs",course_design:"UI/UX Dizayn",course_ai:"AI / ML Kurs",course_web:"Full-Stack Web",course_robo:"Robototexnika",
+    r1:"EzguCode maktabi hayotimni o'zgartirdi. 6 oy ichida Python o'rganib, hozirgacha IT kompaniyada ishlayman. Mentorlar har doim yordam berdi!",
+    r2:"24/7 video darsliklar juda qulay! Ish bilan birga o'qidim. Hozir freeland orqali oyiga 3 million ishlayapman. Rahmat EzguCode!",
+    r3:"AI kursida real loyihalar qildik. Mentorlarimiz tajribali va mehribon. Kursni tavsiya qilaman!",
+    r4:"Avval dasturlashdan qo'rqardim. EzguCode mentorlaridan so'ng hamma narsa oson bo'lib ketdi. Sertifikatim bilan ish topdim!",
+    r5:"Robot loyihasini maktabimda ko'rsatdim, olimpiadada 1-o'rin oldim! EzguCode ishlamasa bu muvaffaqiyat bo'lmasdi.",
+    r6:"Onlayn o'qish qulay, mentorlar tez javob beradi. Portfolio loyiham orqali Google'da stajga kirdim!",
+    proj_label:"Portfolio",proj_title:"O'quvchilar loyihalari",proj_sub:"Real o'quvchilarimiz tomonidan yaratilgan haqiqiy loyihalar",
+    p1_t:"E-Commerce Sayt",p1_d:"Django bilan yaratilgan to'liq funksiyali onlayn do'kon. To'lov tizimi va admin panel bilan.",
+    p2_t:"AI Chatbot",p2_d:"GPT API asosida yaratilgan o'zbek tilida savol-javob chatboti. 95% aniqlik darajasi.",
+    p3_t:"Mobil Ilova Dizayni",p3_d:"Food delivery uchun to'liq Figma prototip. 40+ ekran, dizayn tizimi va animatsiyalar.",
+    p4_t:"Portfolio Sayt",p4_d:"React va Three.js bilan yaratilgan interaktiv 3D portfolio. Animatsiyalar va smooth scroll.",
+    p5_t:"Avtomatik Suv Beruvchi Robot",p5_d:"Arduino asosida tuproq namligini o'lchab o'simliklarni avtomatik sug'oradigan robot.",
+    p6_t:"Data Dashboard",p6_d:"Pandas va Plotly bilan yaratilgan interaktiv ma'lumotlar tahlili paneli.",
+    team_label:"Jamoamiz",team_title:"Mentorlar va O'qituvchilar",team_sub:"Tajribali va mehribon jamoamiz sizni muvaffaqiyatga olib boradi",
+    mentors_label:"— Bosh Mentorlar",mentor_role:"Bosh Mentor",
+    m1_spec:"Python & AI Mutaxassisi",m1_exp:"7 yil tajriba · Google sertifikati",
+    m2_spec:"UI/UX va Product Design",m2_exp:"6 yil tajriba · Figma Ambassador",
+    m3_spec:"Full-Stack Web Dasturchi",m3_exp:"8 yil tajriba · AWS sertifikati",
+    m4_spec:"Robototexnika & Embedded",m4_exp:"5 yil tajriba · IEEE a'zosi",
+    assist_label:"— Yordamchi O'qituvchilar",assist_role:"Yordamchi Ustoz",
+    a1_spec:"Python va Django",a1_exp:"2 yil tajriba",
+    a2_spec:"UI/UX Dizayn",a2_exp:"3 yil tajriba",
+    a3_spec:"JavaScript & React",a3_exp:"2 yil tajriba",
+    a4_spec:"Machine Learning",a4_exp:"2 yil tajriba",
+    contact_label:"Bog'lanish",contact_title:"Kursga Yoziling",contact_sub:"Birinchi qadamni bosing — qolganini biz hal qilamiz!",
+    cp1_t:"Bepul Konsultatsiya",cp1_d:"Sizga mos kursni aniqlashda yordam beramiz",
+    cp2_t:"Tez Javob",cp2_d:"30 daqiqa ichida siz bilan bog'lanamiz",
+    cp3_t:"Birinchi Dars Bepul",cp3_d:"Yozilishdan oldin sinab ko'ring",
+    cp4_t:"Manzil",cp4_d:"Toshkent shahar, online format",
+    form_title:"Ariza qoldiring",f_name:"Ismingiz",ph_name:"Ism Familiya",f_phone:"Telefon raqam",f_course:"Qaysi kursga qiziqasiz?",f_course_sel:"Tanlang...",
+    f_laptop:"Noutbukingiz bormi?",opt_yes:"Ha, bor",opt_no:"Yo'q, yo'q",opt_plan:"Sotib olishni rejalashtiraman",
+    f_interest:"Qiziqish darajangiz",int1:"🔰 Yangi boshlovchi",int2:"📚 Asoslarni bilaman",int3:"💡 O'rta daraja",int4:"🚀 Ish topmoqchi",int5:"💼 Freeland qilmoqchi",int6:"🎓 Bilimni oshirmoqchi",
+    f_time:"Qulay vaqt?",t1:"Ertalab (9:00–12:00)",t2:"Kunduz (12:00–17:00)",t3:"Kechqurun (17:00–21:00)",t4:"Istalgan vaqt",
+    f_submit:"🚀 Hoziroq Yozilish",fs_title:"Arizangiz qabul qilindi!",fs_desc:"Tez orada siz bilan bog'lanamiz. Telegram: @ezgucode_school",
+    footer_desc:"O'zbekistondagi eng sifatli IT ta'lim maktabi. Kelajakni kod bilan quring!",footer_rights:"Barcha huquqlar himoyalangan.",footer_made:"❤️ Toshkentda yaratildi",
+    fc1:"Kurslar",fc2:"Kompaniya",fc2_1:"Biz haqimizda",fc2_2:"Jamoamiz",fc2_3:"Karriera",fc2_4:"Blog",fc2_5:"Yangiliklar",fc3:"Yordam",fc3_1:"FAQ",fc3_2:"Qo'llanma",fc3_3:"Sertifikatlar",fc3_5:"Maxfiylik"
+  },
+  ru: {
+    nav_courses:"Курсы",nav_advantages:"Преимущества",nav_students:"Студенты",nav_team:"Команда",nav_contact:"Контакты",nav_cta:"Зарегистрироваться",
+    hero_badge:"Онлайн Платформа Обучения",hero_title1:"Строй Будущее",hero_title2:"С Кодом!",
+    hero_desc:"EzguCode School — качественное онлайн обучение по программированию, AI, робототехнике и дизайну. С видеоуроками 24/7, опытными менторами и реальными проектами.",
+    hero_btn1:"Начать Бесплатно →",hero_btn2:"Смотреть Курсы",
+    stat1:"Студентов",stat2:"Курсов",stat3:"Довольных студентов",stat4:"Видеоуроки",
+    adv_label:"Почему мы?",adv_title:"Наши преимущества",adv_sub:"EzguCode School принципиально отличается от других IT платформ",
+    adv1_t:"Видеоуроки 24/7",adv1_d:"Учитесь в любое время, в любом месте. Все уроки в HD качестве с возможностью повтора.",
+    adv2_t:"AI Помощник",adv2_d:"Создайте личный план обучения с помощью искусственного интеллекта. Индивидуальный подход.",
+    adv3_t:"Опытные Менторы",adv3_d:"Обучение от практикующих программистов и дизайнеров с опытом 5+ лет.",
+    adv4_t:"Трудоустройство",adv4_d:"После курса — возможность пройти собеседование в наших компаниях-партнёрах.",
+    adv5_t:"Обучение на 3 языках",adv5_d:"Уроки на узбекском, русском и английском. Учитесь на удобном языке.",
+    adv6_t:"Официальный Сертификат",adv6_d:"Получите международно признанный сертификат и создайте портфолио.",
+    adv7_t:"Живое Общение",adv7_d:"Общайтесь с менторами и однокурсниками в Discord и Telegram в реальном времени.",
+    adv8_t:"Реальные Проекты",adv8_d:"Не теория — реальные проекты, хакатоны и production-level код.",
+    courses_label:"Направления обучения",courses_title:"Наши Курсы",courses_sub:"От программирования до дизайна — выберите подходящее направление",
+    c1_title:"Программирование Python",c1_desc:"Python с нуля до профессионального уровня. Web, Data Science и автоматизация.",c1_dur:"6 мес.",
+    c2_title:"Искусственный Интеллект & ML",c2_desc:"Machine Learning, Deep Learning, ChatGPT API и реальные AI проекты.",c2_dur:"8 мес.",
+    c3_title:"Робототехника & Arduino",c3_desc:"Arduino, Raspberry Pi и программирование реальных роботов.",c3_dur:"5 мес.",
+    c4_title:"UI/UX Дизайн",c4_desc:"Изучите Figma, Adobe XD и создавайте реальные продукты.",c4_dur:"4 мес.",
+    c5_title:"Full-Stack Web Разработка",c5_desc:"Создайте полноценный сайт с HTML, CSS, JavaScript, React и Node.js.",c5_dur:"9 мес.",
+    c6_title:"Выберите сами",c6_desc:"Создайте специальный курс по нужному IT направлению",c6_btn:"Связаться",
+    vid:"урок",student:"студ.",sum:"сум/мес",enroll:"Записаться",
+    banner_title:"Видеоуроки 24/7 — В Любое Время",banner_desc:"Дома, в метро, на работе — никогда не пропустите урок. Все видео в HD качестве с возможностью офлайн просмотра.",
+    bf1:"HD Качество",bf2:"Офлайн Режим",bf3:"Субтитры",bf4:"Управление скоростью",bf5:"Повтор просмотра",
+    rev_label:"Отзывы",rev_title:"Что говорят студенты",rev_sub:"Настоящие отзывы реальных студентов",
+    course_python:"Курс Python",course_design:"UI/UX Дизайн",course_ai:"AI / ML Курс",course_web:"Full-Stack Web",course_robo:"Робототехника",
+    r1:"EzguCode изменил мою жизнь. За 6 месяцев выучил Python и сейчас работаю в IT компании. Менторы всегда помогали!",
+    r2:"Видеоуроки 24/7 очень удобны! Учился параллельно с работой. Сейчас зарабатываю на фрилансе. Спасибо EzguCode!",
+    r3:"На курсе AI делали реальные проекты. Менторы опытные и отзывчивые. Рекомендую!",
+    r4:"Раньше боялся программирования. После EzguCode всё стало легко. Нашёл работу с сертификатом!",
+    r5:"Показал проект робота в школе, занял 1 место на олимпиаде! Без EzguCode этого бы не было.",
+    r6:"Онлайн учёба удобна, менторы отвечают быстро. Через портфолио попал на стажировку в Google!",
+    proj_label:"Портфолио",proj_title:"Проекты студентов",proj_sub:"Реальные проекты, созданные нашими студентами",
+    p1_t:"E-Commerce Сайт",p1_d:"Полнофункциональный онлайн-магазин на Django с платёжной системой.",
+    p2_t:"AI Чат-бот",p2_d:"Чат-бот на узбекском языке на основе GPT API. Точность 95%.",
+    p3_t:"Дизайн Мобильного Приложения",p3_d:"Полный Figma прототип для доставки еды. 40+ экранов.",
+    p4_t:"Портфолио Сайт",p4_d:"Интерактивное 3D портфолио на React и Three.js.",
+    p5_t:"Робот для Полива Растений",p5_d:"Робот на Arduino, измеряющий влажность почвы и поливающий автоматически.",
+    p6_t:"Data Dashboard",p6_d:"Интерактивная панель анализа данных на Pandas и Plotly.",
+    team_label:"Команда",team_title:"Менторы и Преподаватели",team_sub:"Опытная и дружелюбная команда ведёт вас к успеху",
+    mentors_label:"— Главные Менторы",mentor_role:"Главный Ментор",
+    m1_spec:"Специалист Python & AI",m1_exp:"7 лет опыта · Сертификат Google",
+    m2_spec:"UI/UX и Product Design",m2_exp:"6 лет опыта · Figma Ambassador",
+    m3_spec:"Full-Stack Web Разработчик",m3_exp:"8 лет опыта · Сертификат AWS",
+    m4_spec:"Робототехника & Embedded",m4_exp:"5 лет опыта · Член IEEE",
+    assist_label:"— Помощники Преподавателей",assist_role:"Помощник Преподавателя",
+    a1_spec:"Python и Django",a1_exp:"2 года опыта",a2_spec:"UI/UX Дизайн",a2_exp:"3 года опыта",a3_spec:"JavaScript & React",a3_exp:"2 года опыта",a4_spec:"Machine Learning",a4_exp:"2 года опыта",
+    contact_label:"Контакты",contact_title:"Записаться на Курс",contact_sub:"Сделайте первый шаг — остальное мы решим!",
+    cp1_t:"Бесплатная Консультация",cp1_d:"Поможем определить подходящий курс",
+    cp2_t:"Быстрый Ответ",cp2_d:"Свяжемся с вами в течение 30 минут",
+    cp3_t:"Первый Урок Бесплатно",cp3_d:"Попробуйте перед записью",
+    cp4_t:"Адрес",cp4_d:"Ташкент, онлайн формат",
+    form_title:"Оставьте заявку",f_name:"Ваше имя",ph_name:"Имя Фамилия",f_phone:"Номер телефона",f_course:"Какой курс интересует?",f_course_sel:"Выберите...",
+    f_laptop:"Есть ли у вас ноутбук?",opt_yes:"Да, есть",opt_no:"Нет",opt_plan:"Планирую купить",
+    f_interest:"Уровень интереса",int1:"🔰 Новичок",int2:"📚 Знаю основы",int3:"💡 Средний уровень",int4:"🚀 Хочу найти работу",int5:"💼 Хочу фриланс",int6:"🎓 Хочу развиться",
+    f_time:"Удобное время?",t1:"Утром (9:00–12:00)",t2:"Днём (12:00–17:00)",t3:"Вечером (17:00–21:00)",t4:"Любое время",
+    f_submit:"🚀 Записаться Сейчас",fs_title:"Заявка принята!",fs_desc:"Скоро свяжемся с вами. Telegram: @ezgucode_school",
+    footer_desc:"Лучшая IT школа в Узбекистане. Стройте будущее с кодом!",footer_rights:"Все права защищены.",footer_made:"❤️ Создано в Ташкенте",
+    fc1:"Курсы",fc2:"Компания",fc2_1:"О нас",fc2_2:"Команда",fc2_3:"Карьера",fc2_4:"Блог",fc2_5:"Новости",fc3:"Помощь",fc3_1:"FAQ",fc3_2:"Руководство",fc3_3:"Сертификаты",fc3_5:"Конфиденциальность"
+  },
+  en: {
+    nav_courses:"Courses",nav_advantages:"Advantages",nav_students:"Students",nav_team:"Team",nav_contact:"Contact",nav_cta:"Sign Up",
+    hero_badge:"Online Learning Platform",hero_title1:"Build Your Future",hero_title2:"With Code!",
+    hero_desc:"EzguCode School — quality online education in Programming, AI, Robotics and Design. With 24/7 video lessons, experienced mentors and hands-on projects.",
+    hero_btn1:"Start Free →",hero_btn2:"View Courses",
+    stat1:"Students",stat2:"Courses",stat3:"Satisfied students",stat4:"Video Lessons",
+    adv_label:"Why us?",adv_title:"Our Advantages",adv_sub:"EzguCode School is fundamentally different from other IT education platforms",
+    adv1_t:"24/7 Video Lessons",adv1_d:"Learn anytime, anywhere. All lessons in HD quality with replay capability.",
+    adv2_t:"AI Assistant",adv2_d:"Create a personal study plan with artificial intelligence. Individual approach for each student.",
+    adv3_t:"Experienced Mentors",adv3_d:"Learn from practicing developers and designers with 5+ years of experience.",
+    adv4_t:"Job Placement",adv4_d:"After the course — interview opportunity with our partner companies.",
+    adv5_t:"3 Language Learning",adv5_d:"Lessons in Uzbek, Russian and English. Learn in your preferred language.",
+    adv6_t:"Official Certificate",adv6_d:"Get an internationally recognized certificate and build your portfolio.",
+    adv7_t:"Live Discussions",adv7_d:"Real-time communication with mentors and peers on Discord and Telegram.",
+    adv8_t:"Real Projects",adv8_d:"Not theory — real world projects, hackathons and production-level code.",
+    courses_label:"Learning Directions",courses_title:"Our Courses",courses_sub:"From Programming to Design — find the perfect direction for you",
+    c1_title:"Python Programming",c1_desc:"Python from zero to professional level. Web, Data Science and Automation.",c1_dur:"6 months",
+    c2_title:"Artificial Intelligence & ML",c2_desc:"Machine Learning, Deep Learning, ChatGPT API and real AI projects.",c2_dur:"8 months",
+    c3_title:"Robotics & Arduino",c3_desc:"Arduino, Raspberry Pi and programming real robot devices.",c3_dur:"5 months",
+    c4_title:"UI/UX Design",c4_desc:"Learn Figma, Adobe XD and create real products with design systems.",c4_dur:"4 months",
+    c5_title:"Full-Stack Web Development",c5_desc:"Build complete websites with HTML, CSS, JavaScript, React and Node.js.",c5_dur:"9 months",
+    c6_title:"Choose Your Path",c6_desc:"Create a custom course in your desired IT direction",c6_btn:"Contact Us",
+    vid:"lessons",student:"students",sum:"UZS/mo",enroll:"Enroll",
+    banner_title:"24/7 Video Lessons — Anytime",banner_desc:"At home, on the subway, at work — never miss a lesson. All videos in HD with offline viewing capability.",
+    bf1:"HD Quality",bf2:"Offline Mode",bf3:"Subtitles",bf4:"Speed Control",bf5:"Rewatch",
+    rev_label:"Reviews",rev_title:"What Our Students Say",rev_sub:"Real reviews from our real students",
+    course_python:"Python Course",course_design:"UI/UX Design",course_ai:"AI / ML Course",course_web:"Full-Stack Web",course_robo:"Robotics",
+    r1:"EzguCode changed my life. Learned Python in 6 months and now work at an IT company. Mentors were always helpful!",
+    r2:"24/7 video lessons are so convenient! Studied while working full time. Now earning freelance. Thanks EzguCode!",
+    r3:"We built real projects in the AI course. Mentors are experienced and caring. Highly recommend!",
+    r4:"I used to fear programming. After EzguCode mentors, everything became easy. Found a job with my certificate!",
+    r5:"Showed my robot project at school, won 1st place at the olympiad! Wouldn't have happened without EzguCode.",
+    r6:"Online studying is convenient, mentors respond quickly. Got a Google internship through my portfolio project!",
+    proj_label:"Portfolio",proj_title:"Student Projects",proj_sub:"Real projects created by our real students",
+    p1_t:"E-Commerce Website",p1_d:"Fully functional online store built with Django, payment system and admin panel.",
+    p2_t:"AI Chatbot",p2_d:"Question-answer chatbot in Uzbek language based on GPT API. 95% accuracy.",
+    p3_t:"Mobile App Design",p3_d:"Complete Figma prototype for food delivery. 40+ screens, design system.",
+    p4_t:"Portfolio Website",p4_d:"Interactive 3D portfolio built with React and Three.js. Animations and smooth scroll.",
+    p5_t:"Automatic Plant Watering Robot",p5_d:"Arduino-based robot that measures soil moisture and waters plants automatically.",
+    p6_t:"Data Dashboard",p6_d:"Interactive data analysis dashboard built with Pandas and Plotly.",
+    team_label:"Team",team_title:"Mentors & Teachers",team_sub:"Our experienced and caring team leads you to success",
+    mentors_label:"— Lead Mentors",mentor_role:"Lead Mentor",
+    m1_spec:"Python & AI Specialist",m1_exp:"7 years exp · Google certified",
+    m2_spec:"UI/UX & Product Design",m2_exp:"6 years exp · Figma Ambassador",
+    m3_spec:"Full-Stack Web Developer",m3_exp:"8 years exp · AWS certified",
+    m4_spec:"Robotics & Embedded",m4_exp:"5 years exp · IEEE member",
+    assist_label:"— Teaching Assistants",assist_role:"Teaching Assistant",
+    a1_spec:"Python & Django",a1_exp:"2 years exp",a2_spec:"UI/UX Design",a2_exp:"3 years exp",a3_spec:"JavaScript & React",a3_exp:"2 years exp",a4_spec:"Machine Learning",a4_exp:"2 years exp",
+    contact_label:"Contact",contact_title:"Enroll in a Course",contact_sub:"Take the first step — we'll handle the rest!",
+    cp1_t:"Free Consultation",cp1_d:"We'll help you find the right course",
+    cp2_t:"Quick Response",cp2_d:"We'll contact you within 30 minutes",
+    cp3_t:"First Lesson Free",cp3_d:"Try before you enroll",
+    cp4_t:"Location",cp4_d:"Tashkent city, online format",
+    form_title:"Leave a Request",f_name:"Your Name",ph_name:"First Last Name",f_phone:"Phone Number",f_course:"Which course interests you?",f_course_sel:"Select...",
+    f_laptop:"Do you have a laptop?",opt_yes:"Yes, I have one",opt_no:"No, I don't",opt_plan:"Planning to buy",
+    f_interest:"Your Interest Level",int1:"🔰 Complete beginner",int2:"📚 Know the basics",int3:"💡 Intermediate level",int4:"🚀 Want to find a job",int5:"💼 Want to freelance",int6:"🎓 Want to improve",
+    f_time:"Preferred time?",t1:"Morning (9:00–12:00)",t2:"Afternoon (12:00–17:00)",t3:"Evening (17:00–21:00)",t4:"Any time",
+    f_submit:"🚀 Enroll Now",fs_title:"Application received!",fs_desc:"We'll contact you soon. Telegram: @ezgucode_school",
+    footer_desc:"The best IT school in Uzbekistan. Build your future with code!",footer_rights:"All rights reserved.",footer_made:"❤️ Made in Tashkent",
+    fc1:"Courses",fc2:"Company",fc2_1:"About Us",fc2_2:"Team",fc2_3:"Careers",fc2_4:"Blog",fc2_5:"News",fc3:"Support",fc3_1:"FAQ",fc3_2:"Guide",fc3_3:"Certificates",fc3_5:"Privacy"
+  }
+};
+
+let currentLang = 'uz';
+function setLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-key-ph]').forEach(el => {
+    const key = el.getAttribute('data-key-ph');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+  });
+  document.documentElement.lang = lang;
+}
+
+// THEME
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelectorAll('.theme-toggle-inner').forEach(el => {
+    el.textContent = isDark ? '🌙' : '☀️';
+  });
+}
+
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  }, 60);
+});
+document.querySelectorAll('button,a,.adv-card,.course-card,.student-card,.project-card,.team-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px';cursor.style.height = '20px';cursor.style.background = 'var(--accent2)';
+    ring.style.width = '50px';ring.style.height = '50px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px';cursor.style.height = '12px';cursor.style.background = 'var(--accent)';
+    ring.style.width = '36px';ring.style.height = '36px';
+  });
+});
+
+// MOBILE MENU
+let menuOpen = false;
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById('mobileMenu').classList.toggle('open', menuOpen);
+}
+
+// SCROLL REVEAL
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal,.reveal-left,.stagger').forEach(el => observer.observe(el));
+
+// SCROLL TOP
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  btn.classList.toggle('visible', window.scrollY > 500);
+});
+
+// FORM
+function toggleInterest(btn) {
+  btn.classList.toggle('selected');
+}
+function scrollToContact() {
+  document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+}
+function submitForm() {
+  const name = document.getElementById('f_name').value;
+  const phone = document.getElementById('f_phone').value;
+  if (!name.trim() || !phone.trim()) {
+    const t = translations[currentLang];
+    alert(currentLang==='uz'?'Iltimos, ism va telefon raqamni kiriting!':currentLang==='ru'?'Пожалуйста, введите имя и номер телефона!':'Please enter your name and phone number!');
+    return;
+  }
+  document.getElementById('formContent').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+// COUNTER ANIMATION
+function animateCounter(el, target, suffix='') {
+  let count = 0;
+  const step = Math.ceil(target / 60);
+  const interval = setInterval(() => {
+    count = Math.min(count + step, target);
+    el.textContent = count + suffix;
+    if (count >= target) clearInterval(interval);
+  }, 20);
+}
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.animated) {
+      e.target.animated = true;
+      const nums = e.target.querySelectorAll('.num');
+      const data = [500,15,98,24];
+      const sfx = ['+','+','%','/7'];
+      nums.forEach((n,i) => animateCounter(n, data[i], sfx[i]));
+    }
+  });
+},{threshold:0.5});
+const statsEl = document.querySelector('.hero-stats');
+if (statsEl) statsObserver.observe(statsEl);
+</script>
+</body>
+</html>
